@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的第一个博客</title>
+    <link rel="stylesheet" href="{% static "myblog/css/semantic.min.css" %}">
+    <link rel="stylesheet" href="{% static "myblog/css/mystyle.css" %}">
+    <link rel="stylesheet" href="{% static "myblog/css/swiper.css" %}">
+    <script src="{% static "myblog/js/vue.js" %}"></script>
+    <script src="{% static "myblog/js/reqwest.js" %}"></script>
+    <script src="{% static "myblog/js/js.cookie.js" %}"></script>
+</head>
+<body>
+ <div id="index">
+  <!-- 顶部导航栏 -->
+  {% verbatim %}
+    <div class="top-menu">
+        <div class="ui container">
+          <div class="ui four column grid">
+            <div v-for='item in topmenu' class="column">
+              {{ item.title }}
+            </div>
+          </div>
+        </div>
+    </div>
+  {% endverbatim %}
+  <!-- 首页幻灯 -->
+    <div id="banner">
+     <div class="top-Slideshow">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div v-for="item in banner" class="swiper-slide">
+            <img :src="item.img" alt="" style="width: 100%;height:700px;" >
+          </div>
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+     </div>
+    </div>
+
+   <!-- 首页功能导航 -->
+    <div class="nav-btn">
+      <div class="ui container">
+        <div class="ui four column grid">
+          <div class="column">
+            <img src="static/myblog/icon/beiwang.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/riji.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/shezhi.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/tupian.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/beiwang.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/riji.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/shezhi.png" alt="">
+          </div>
+          <div class="column">
+            <img src="static/myblog/icon/tupian.png" alt="">
+          </div>
+        </div>
+      </div>
+    </div>    
+    <!-- 首页文章列表 -->
+    <div class="article-list">
+      <div class="ui container">
+        <div class="ui centered header">
+          <h2>最新更新</h2>
+        </div>
+        <!-- 循环文章列表 -->
+        {% for item in artical %}
+
+        <div class="article-item">
+          <img src="/upload/{{ item.img }}" alt="">
+          <div class="title">
+            {{ item.title }}
+            <span>{{ item.created_time | date:"Y-m-d" }}</span>
+          </div>
+          <div class="clear"></div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+   <!-- 底部 -->
+   <div class="tabBar">
+     <div class="ui four column grid">
+       <div class="column">首页</div>
+       <div class="column">热门</div>
+       <div class="column">分类</div>
+       <div v-if="loginType==false" @click="showuserUi()" class="column">登陆</div>
+       <div @click="toadmin()" v-else class="column">后台</div>
+     </div>
+   </div>
+   <div v-show="userUi" id="login">
+     <div class="userUi">
+      <div class="ui container">
+        <h3>登陆</h3>
+        <div class="input">
+          <div class="item">
+            <input v-model="username" type="text" placeholder="用户名">
+
+          </div>
+          <div class="item">
+           <input v-model="password" type="password" placeholder="密码">
+         </div>
+        </div>
+        <button @click="showuserUi" type="button" name="button">取消</button>
+        <button @click="userlogin()" type="button" name="button" style="background: #ee1919;color: #fff;">确定</button>
+       </div>
+     </div>
+   </div>
+  </div>
+
+
+
+
+
+<script type="text/javascript">
+    var csrftoken = Cookies.get('csrftoken')
+    console.log(csrftoken)
+</script>
+<script src="{% static "myblog/js/index.js" %}"></script>
+<script src="{% static "myblog/js/swiper.js" %}"></script>
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    spaceBetween: 30,
+    centeredSlides: true,
+    autoplay: {
+      delay: 2500,
+      disableOnInteraction: false,
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+</script>
+</body>
+</html>
